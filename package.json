@@ -1,6 +1,6 @@
 {
   "name": "rainbow-waves",
-  "version": "0.0.8",
+  "version": "1.0.1",
   "description": "z7xisoo rainbow-waves vue",
   "main": "index.js",
   "scripts": {
@@ -8,9 +8,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "github.com/z7xisoo/rainbow-waves"
+    "url": "rainbow-waves"
   },
-  "homepage":"github.com/z7xisoo/rainbow-waves",
+  "homepage":"rainbow-waves.github.io",
   "keywords": [
     "rainbow-waves",
     "z7xisoo",
