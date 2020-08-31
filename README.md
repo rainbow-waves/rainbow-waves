@@ -50,3 +50,6 @@ import RainbowWaves from 'rainbow-waves'
 
 MIT
 
+----
+                
+![](https://raw.githubusercontent.com/rainbow-waves/rainbow-waves.github.io/master/wave.jpg)
