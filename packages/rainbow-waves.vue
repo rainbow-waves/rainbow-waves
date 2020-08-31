@@ -101,10 +101,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.rainbow-waves {
-  width: 100%;
-  height: 100%;
-}
-</style>
