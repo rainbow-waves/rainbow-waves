@@ -1,6 +1,6 @@
 # rainbow-waves
 
-rainbow-waves is a wave component on Vue.
+[rainbow-waves](https://rainbow-waves.github.io/) is a wave component on Vue by [z7xisoo](https://z7xisoo.com/) in [github](https://github.com/rainbow-waves/rainbow-waves).
 
 ## Install
 
@@ -49,6 +49,4 @@ import RainbowWaves from 'rainbow-waves'
 ## LICENSE
 
 MIT
-
-## [Show](https://rainbow-waves.github.io/)
 
