@@ -29,9 +29,20 @@ import RainbowWaves from 'rainbow-waves'
 | width|Number|1920|canvas width|
 | height|Number|1080|canvas height|
 | backgroundColor|String|"#fff"|canvas background-color|
+| backgroundImage|Object|{...}|canvas background-image|
 | waves|Array|[{...}]|waves|
 
 
+- [x] backgroundImage
+
+| key|type|default|use|range|
+| -------- |-----:|:----:|:----:|:----:|
+| src|String|""|image-url| - |
+| repetition|String|"repeat"|如何重复图像|"repeat","repeat-x","repeat-y","no-repeat"|
+
+```js
+import image from "rainbow-waves.png";
+```
 
 
 - [x] waves

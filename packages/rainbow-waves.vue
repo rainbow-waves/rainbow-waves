@@ -16,6 +16,10 @@ export default {
           width: 1920,
           height: 1000,
           backgroundColor: "#fff",
+          backgroundImage:{
+            src:"",
+            repetition:"",
+          },
           waves: [
             {
               color: "blue",
@@ -51,7 +55,7 @@ export default {
   },
   methods: {
     drow() {
-      const { el, width, height, waves, backgroundColor } = this.config;
+      const { el, width, height, waves, backgroundColor,backgroundImage } = this.config;
       if (waves && waves.length) {
         let canvas = document.getElementById(el);
         let ctx = canvas.getContext("2d");
@@ -61,9 +65,15 @@ export default {
         loop();
         function loop() {
           ctx.clearRect(0, 0, width, height);
-          ctx.rect(0, 0, width, height);
-          ctx.fillStyle = backgroundColor;
-          ctx.fill();
+          if (backgroundImage && backgroundImage.src) {
+            let repetition = backgroundImage.repetition || "repeat";
+            let img = new Image();
+            img.src = backgroundImage.src;
+            ctx.fillStyle = ctx.createPattern(img, repetition);
+          } else {
+            ctx.fillStyle = backgroundColor;
+          }
+          ctx.fillRect(0, 0, width, height);
           for (let i = 0; i < waves.length; i++) {
             let color = waves[i]["color"];
             let { jitter, restore, waveGap, waterGap, waveUps } = waves[i];
