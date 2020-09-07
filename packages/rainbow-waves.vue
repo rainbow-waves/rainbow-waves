@@ -5,12 +5,6 @@
 </template>
 
 <script>
-let canvas = null;
-let ctx = null;
-let t = 0;
-let width = 0;
-let height = 0;
-
 export default {
   name: "rainbow-waves",
   props: {
@@ -32,33 +26,19 @@ export default {
   watch: {
     config: {
       handler() {
-        this.$nextTick(() => {
-          this.drow();
-        });
+        this.drow();
       },
       deep: true,
     },
     waves: {
       handler() {
-        this.$nextTick(() => {
-          this.drow();
-        });
+        this.drow();
       },
       deep: true,
     },
   },
   mounted() {
-    this.$nextTick(() => {
-      this.drow();
-    });
-  },
-  beforeDestroy() {
-    if (ctx) ctx.rect(0, 0, width, height);
-    canvas = null;
-    ctx = null;
-    t = 0;
-    width = 0;
-    height = 0;
+    this.drow();
   },
   methods: {
     drow() {
@@ -69,12 +49,15 @@ export default {
       }
 
       // 初始化
-      t = 0;
-      width = 0;
-      height = 0;
+      let t = 0;
+      let waves = [];
+      let canvas = null;
+      let ctx = null;
+      let width = 0;
+      let height = 0;
 
       // 配置项
-      const { new: create, el, width, height, clear, background } = {
+      const { new: create, el, width: xW, height: xH, clear, background } = {
         el: "rainbow-waves",
         clear: true,
         new: true,
@@ -83,9 +66,6 @@ export default {
         background: {
           type: "color",
           color: "#fff",
-          // position
-          // src
-          // repetition
         },
         ...this.config,
       };
@@ -98,16 +78,16 @@ export default {
       ctx = canvas.getContext("2d");
       // 配置 画布
       if (create) {
-        canvas.width = width;
-        canvas.height = height;
-        width = width;
-        height = height;
+        canvas.width = width = xW;
+        canvas.height = height = xH;
+        setColor(background);
+        ctx.fillRect(0, 0, width, height);
       }
       // 颜色配置函数
       function setColor(background) {
         // 未找到指定元素
-      if (!ctx) throw new Error(`未找到‘canvas’, getContext 错误`);
-      if (!ctx) return;
+        if (!ctx) throw new Error(`未找到‘canvas’, getContext 错误`);
+        if (!ctx) return;
         switch (background.type) {
           case "color":
             ctx.fillStyle = Array.isArray(background.color)
@@ -117,14 +97,11 @@ export default {
               : background.color;
             break;
           case "gradient":
-            const gradient = ctx.createLinearGradient(
-              position[0],
-              position[1],
-              position[2],
-              position[3]
-            );
-            color.forEach((x, k) => {
-              gradient.addColorStop(k / color.length, x);
+            const [o1, o2, o3, o4] = background.position;
+            const gradient = ctx.createLinearGradient(o1, o2, o3, o4);
+            const l = background.color.length;
+            background.color.forEach((x, k) => {
+              gradient.addColorStop(k / l, x);
             });
             ctx.fillStyle = gradient;
             break;
@@ -138,18 +115,19 @@ export default {
 
       // 配置波浪
       if (this.waves && this.waves.length) {
+        waves = [...this.waves];
         loop();
         function loop() {
           if (clear) ctx.clearRect(0, 0, width, height);
-          if(create) setColor(background);
+          if (create) setColor(background);
           ctx.fillRect(0, 0, width, height);
-          for (let i = 0; i < this.waves.length; i++) {
-            let { jitter, restore, waveGap, waterGap, waveUps } = this.waves[i];
+          for (let i = 0; i < waves.length; i++) {
+            let { jitter, restore, waveGap, waterGap, waveUps } = waves[i];
             ctx.beginPath();
             for (let e = 0; e <= 1 + 0.01; e += 0.01) {
               ctx.lineTo(
                 e * width,
-                height * this.waves[i]["waveHeight"] +
+                height * waves[i]["waveHeight"] +
                   (Math.sin(e * waveUps + t * jitter) * waveGap + waterGap) *
                     Math.sin(t * restore)
               );
@@ -157,7 +135,7 @@ export default {
             ctx.lineTo(width, height);
             ctx.lineTo(0, height);
             ctx.closePath();
-            setColor(this.waves[i]["background"]);
+            setColor(waves[i]["background"]);
             ctx.fill();
           }
           t++;
