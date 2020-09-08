@@ -42,12 +42,6 @@ export default {
   },
   methods: {
     drow() {
-      // 重置画布
-      if (ctx) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx = null;
-      }
-
       // 初始化
       let t = 0;
       let waves = [];
