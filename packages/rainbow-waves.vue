@@ -17,10 +17,16 @@ export default {
   },
   computed: {
     createCanvas() {
-      return this.config ? this.config.new || true : true;
+      if (this.config.hasOwnProperty("new")) {
+        return this.config.new;
+      }
+      return true;
     },
     elId() {
-      return this.config ? this.config.el || "rainbow-waves" : "rainbow-waves";
+      if (this.config.hasOwnProperty("el")) {
+        return this.config.el;
+      }
+      return "rainbow-waves";
     },
   },
   watch: {
@@ -80,13 +86,14 @@ export default {
       if (!canvas) return;
       ctx = canvas.getContext("2d");
       // 配置 画布
-      width = xW;
-      height = xH;
       if (create) {
-        canvas.width = width;
-        canvas.height = height;
+        canvas.width = width = xW;
+        canvas.height = height = xH;
         setColor(background);
         ctx.fillRect(0, 0, width, height);
+      } else {
+        width = canvas.width;
+        height = canvas.height;
       }
       // 颜色配置函数
       function setColor(background) {
