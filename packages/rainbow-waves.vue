@@ -17,13 +17,13 @@ export default {
   },
   computed: {
     createCanvas() {
-      if (this.config.hasOwnProperty("new")) {
+      if (this.config && this.config.hasOwnProperty("new")) {
         return this.config.new;
       }
       return true;
     },
     elId() {
-      if (this.config.hasOwnProperty("el")) {
+      if (this.config && this.config.hasOwnProperty("el")) {
         return this.config.el;
       }
       return "rainbow-waves";
@@ -120,15 +120,21 @@ export default {
             break;
         }
       }
-
+      waves = this.waves;
       // 配置波浪
-      if (this.waves && this.waves.length) {
-        waves = [...this.waves];
-        loop();
-        function loop() {
-          if (clear) ctx.clearRect(0, 0, width, height);
-          if (create) setColor(background);
-          ctx.fillRect(0, 0, width, height);
+      loop();
+      function loop() {
+        if (clear) ctx.clearRect(0, 0, width, height);
+        if (create) {
+          setColor(background);
+        } else {
+          setColor({
+            type: "color",
+            color: "rgba(0,0,0,0)",
+          });
+        }
+        ctx.fillRect(0, 0, width, height);
+        if (waves && waves.length) {
           for (let i = 0; i < waves.length; i++) {
             let { jitter, restore, waveGap, waterGap, waveUps } = waves[i];
             ctx.beginPath();
@@ -179,8 +185,8 @@ export default {
             ctx.fill();
           }
           t++;
-          requestAnimationFrame(loop);
         }
+        requestAnimationFrame(loop);
       }
     },
   },
