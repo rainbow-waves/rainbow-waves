@@ -84,11 +84,7 @@ export default {
         if (!ctx) return;
         switch (background.type) {
           case "color":
-            ctx.fillStyle = Array.isArray(background.color)
-              ? background.color[
-                  Math.ceil(Math.random() * (background.color.length - 1))
-                ]
-              : background.color;
+            ctx.fillStyle = background.color;
             break;
           case "gradient":
             const [o1, o2, o3, o4] = background.position;

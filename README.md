@@ -73,11 +73,6 @@ background = {
 
 background = {
   type: "color",
-  color: ["red", "orange", "green", "blue"],
-};
-
-background = {
-  type: "color",
   color: "green",
 };
 
