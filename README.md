@@ -30,6 +30,7 @@ import RainbowWaves from 'rainbow-waves'
 | clear|Boolean|true|clear canvas when animation|
 | width|Number|1920|canvas width|
 | height|Number|1080|canvas height|
+| direction|String|"bottom"|waves direction|
 | background|Object|{...}|canvas background|
 
 
@@ -42,7 +43,7 @@ import RainbowWaves from 'rainbow-waves'
 | waveGap|Number|80|波浪峰差| - |
 | waterGap|Number|20|水位差| - |
 | waveUps|Number|6|波浪起伏频率|[1 - 10]|
-| waveHeight|Number|0.45|波浪占比|[0.01 - 1.00]|
+| bit|Number|0.45|波浪占比|[0.01 - 1.00]|
 | background|Object|{...}|canvas background|-|
 
 - [x] background

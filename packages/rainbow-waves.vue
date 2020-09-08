@@ -51,7 +51,15 @@ export default {
       let height = 0;
 
       // 配置项
-      const { new: create, el, width: xW, height: xH, clear, background } = {
+      const {
+        new: create,
+        el,
+        width: xW,
+        height: xH,
+        clear,
+        background,
+        direction,
+      } = {
         el: "rainbow-waves",
         clear: true,
         new: true,
@@ -61,6 +69,7 @@ export default {
           type: "color",
           color: "#fff",
         },
+        direction: "bottom",
         ...this.config,
       };
 
@@ -71,9 +80,11 @@ export default {
       if (!canvas) return;
       ctx = canvas.getContext("2d");
       // 配置 画布
+      width = xW;
+      height = xH;
       if (create) {
-        canvas.width = width = xW;
-        canvas.height = height = xH;
+        canvas.width = width;
+        canvas.height = height;
         setColor(background);
         ctx.fillRect(0, 0, width, height);
       }
@@ -115,15 +126,47 @@ export default {
             let { jitter, restore, waveGap, waterGap, waveUps } = waves[i];
             ctx.beginPath();
             for (let e = 0; e <= 1 + 0.01; e += 0.01) {
-              ctx.lineTo(
-                e * width,
-                height * waves[i]["waveHeight"] +
-                  (Math.sin(e * waveUps + t * jitter) * waveGap + waterGap) *
-                    Math.sin(t * restore)
-              );
+              if (direction === "left" || direction === "right") {
+                ctx.lineTo(
+                  width *
+                    (direction === "left"
+                      ? waves[i]["bit"]
+                      : Math.floor((1 - waves[i]["bit"]) * 10) / 10) +
+                    (Math.sin(e * waveUps + t * jitter) * waveGap + waterGap) *
+                      Math.sin(t * restore),
+                  e * height
+                );
+              } else {
+                ctx.lineTo(
+                  e * width,
+                  height *
+                    (direction === "top"
+                      ? waves[i]["bit"]
+                      : Math.floor((1 - waves[i]["bit"]) * 10) / 10) +
+                    (Math.sin(e * waveUps + t * jitter) * waveGap + waterGap) *
+                      Math.sin(t * restore)
+                );
+              }
             }
-            ctx.lineTo(width, height);
-            ctx.lineTo(0, height);
+
+            switch (direction) {
+              case "left":
+                ctx.lineTo(0, height);
+                ctx.lineTo(0, 0);
+                break;
+              case "right":
+                ctx.lineTo(width, height);
+                ctx.lineTo(width, 0);
+                break;
+              case "top":
+                ctx.lineTo(width, 0);
+                ctx.lineTo(0, 0);
+                break;
+              default:
+                ctx.lineTo(width, height);
+                ctx.lineTo(0, height);
+                break;
+            }
             ctx.closePath();
             setColor(waves[i]["background"]);
             ctx.fill();
