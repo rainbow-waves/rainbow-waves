@@ -45,20 +45,25 @@ export default {
       deep: true,
     },
   },
-  created() {
-    this.$nextTick(() => {
+  mounted() {
+    if (this.createCanvas) {
       this.draw();
-    });
+    } else {
+      setTimeout(() => {
+        this.draw();
+      }, 10);
+    }
   },
   methods: {
     draw() {
       // 初始化
       let t = 0;
-      let waves = [];
       let canvas = null;
       let ctx = null;
       let width = 0;
       let height = 0;
+
+      const waves = this.waves ? [...this.waves] : [];
 
       // 配置项
       const {
@@ -73,8 +78,8 @@ export default {
         el: "rainbow-waves",
         clear: true,
         new: true,
-        width: 1920,
-        height: 1000,
+        width: window.innerWidth,
+        height: window.innerHeight,
         background: {
           type: "color",
           color: "#fff",
@@ -93,8 +98,6 @@ export default {
       if (create) {
         canvas.width = width = xW;
         canvas.height = height = xH;
-        setColor(background);
-        ctx.fillRect(0, 0, width, height);
       } else {
         width = canvas.width;
         height = canvas.height;
@@ -124,7 +127,6 @@ export default {
             break;
         }
       }
-      waves = this.waves;
       // 配置波浪
       loop();
       function loop() {
