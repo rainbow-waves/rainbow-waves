@@ -1,7 +1,5 @@
 <template>
-  <div v-if="createCanvas" class="rainbow-waves">
-    <canvas :id="elId"></canvas>
-  </div>
+  <canvas v-if="createCanvas" :id="elId"></canvas>
 </template>
 
 <script>
@@ -32,22 +30,28 @@ export default {
   watch: {
     config: {
       handler() {
-        this.drow();
+        this.$nextTick(() => {
+          this.draw();
+        });
       },
       deep: true,
     },
     waves: {
       handler() {
-        this.drow();
+        this.$nextTick(() => {
+          this.draw();
+        });
       },
       deep: true,
     },
   },
-  mounted() {
-    this.drow();
+  created() {
+    this.$nextTick(() => {
+      this.draw();
+    });
   },
   methods: {
-    drow() {
+    draw() {
       // 初始化
       let t = 0;
       let waves = [];
